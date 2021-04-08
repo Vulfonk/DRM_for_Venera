@@ -12,7 +12,7 @@ class Example(Frame):
         self.initUI()
 
     def initUI(self):
-        self.parent.title("Обработка табличных данных")
+        self.parent.title("РћР±СЂР°Р±РѕС‚РєР° С‚Р°Р±Р»РёС‡РЅС‹С… РґР°РЅРЅС‹С…")
 
         self.pack(fill=BOTH, expand=True)
         
@@ -33,16 +33,16 @@ class Example(Frame):
         path1 = str()
         global path2 
         path2 = str()
-        #выбрать пути
-        #выбрать пути
+        #РІС‹Р±СЂР°С‚СЊ РїСѓС‚Рё
+        #РІС‹Р±СЂР°С‚СЊ РїСѓС‚Рё
         
  
         def CFD1():
             global path1 
-            path1 = fd.askdirectory(title = "Выбрать")
+            path1 = fd.askdirectory(title = "Р’С‹Р±СЂР°С‚СЊ")
             if type(path1) != tuple and path1 != '':
                 txt1.configure(state=tk.NORMAL)
-                txt1.insert(1.0, 'Назначено расположение архивных трендов: ' + path1 + '\n')
+                txt1.insert(1.0, 'РќР°Р·РЅР°С‡РµРЅРѕ СЂР°СЃРїРѕР»РѕР¶РµРЅРёРµ Р°СЂС…РёРІРЅС‹С… С‚СЂРµРЅРґРѕРІ: ' + path1 + '\n')
                 txt1.configure(state=tk.DISABLED)
             print (path1)
             return path1
@@ -50,20 +50,20 @@ class Example(Frame):
 
         def CFD2():
             global path2
-            path2 = fd.askdirectory(title = "Выбрать")
+            path2 = fd.askdirectory(title = "Р’С‹Р±СЂР°С‚СЊ")
             if type(path2) != tuple and path2 != '':
                 txt1.configure(state=tk.NORMAL)
-                txt1.insert(1.0, 'Назначено расположение архивных сообщений: ' + path2 + '\n')
+                txt1.insert(1.0, 'РќР°Р·РЅР°С‡РµРЅРѕ СЂР°СЃРїРѕР»РѕР¶РµРЅРёРµ Р°СЂС…РёРІРЅС‹С… СЃРѕРѕР±С‰РµРЅРёР№: ' + path2 + '\n')
                 txt1.configure(state=tk.DISABLED)
             return path2
 
    
         def OFD1(path1):
-            doc_name = fd.askopenfilename(title = "Открыть", initialdir = path1)
+            doc_name = fd.askopenfilename(title = "РћС‚РєСЂС‹С‚СЊ", initialdir = path1)
             print (path1)
             if type(doc_name) != tuple and doc_name != '':
                 txt1.configure(state=tk.NORMAL)
-                txt1.insert(1.0, 'Открыт файл архивного тренда' + doc_name + '\n')
+                txt1.insert(1.0, 'РћС‚РєСЂС‹С‚ С„Р°Р№Р» Р°СЂС…РёРІРЅРѕРіРѕ С‚СЂРµРЅРґР°' + doc_name + '\n')
                 txt1.configure(state=tk.DISABLED)
                 doc = open(doc_name, encoding="utf-8")
                 s = doc.read()
@@ -74,10 +74,10 @@ class Example(Frame):
 
 
         def OFD2(path2):
-            doc_name = fd.askopenfilename(title = "Открыть", initialdir = path2)
+            doc_name = fd.askopenfilename(title = "РћС‚РєСЂС‹С‚СЊ", initialdir = path2)
             if type(doc_name) != tuple and doc_name != '':
                 txt1.configure(state=tk.NORMAL)
-                txt1.insert(1.0, 'Открыт файл архивного сообщения' + doc_name + '\n')
+                txt1.insert(1.0, 'РћС‚РєСЂС‹С‚ С„Р°Р№Р» Р°СЂС…РёРІРЅРѕРіРѕ СЃРѕРѕР±С‰РµРЅРёСЏ' + doc_name + '\n')
                 txt1.configure(state=tk.DISABLED)
                 doc = open(doc_name, encoding="utf-8")
                 s = doc.read()
@@ -86,21 +86,21 @@ class Example(Frame):
                 doc.close()
      
 
-        #сохранить файл
+        #СЃРѕС…СЂР°РЅРёС‚СЊ С„Р°Р№Р»
         def SFD():
-            #назначаем шаблон для названия документа
+            #РЅР°Р·РЅР°С‡Р°РµРј С€Р°Р±Р»РѕРЅ РґР»СЏ РЅР°Р·РІР°РЅРёСЏ РґРѕРєСѓРјРµРЅС‚Р°
             DT = time.strftime("_%Y-%m-%d_%H-%M-%S", time.localtime())
-            doc_name = fd.asksaveasfilename(title = "Сохранить", initialfile = DT, defaultextension="*.txt", filetypes = (("Текстовый", "*.txt"), ("CSV ", "*.csv"), ("XML ", "*.xml")))
+            doc_name = fd.asksaveasfilename(title = "РЎРѕС…СЂР°РЅРёС‚СЊ", initialfile = DT, defaultextension="*.txt", filetypes = (("РўРµРєСЃС‚РѕРІС‹Р№", "*.txt"), ("CSV ", "*.csv"), ("XML ", "*.xml")))
             doc = open(doc_name, 'w', encoding="utf-8")
             s = txt.get(1.0, tk.END)
             doc.write(s)
             doc.close()
             if type(doc_name) != tuple:
                 txt1.configure(state=tk.NORMAL)
-                txt1.insert(1.0, 'Файл сохранён.\n')
+                txt1.insert(1.0, 'Р¤Р°Р№Р» СЃРѕС…СЂР°РЅС‘РЅ.\n')
                 txt1.configure(state=tk.DISABLED)
                 
-         #вывод информации о разработчиках 
+         #РІС‹РІРѕРґ РёРЅС„РѕСЂРјР°С†РёРё Рѕ СЂР°Р·СЂР°Р±РѕС‚С‡РёРєР°С… 
         def InterText():
             Window1().mainloop()
 
@@ -132,7 +132,7 @@ class Example(Frame):
                 txt.pack(fill=BOTH, pady=10, padx=10, expand=True ) 
                 
                 txt.configure(state=tk.NORMAL)
-                txt.insert(1.0, 'Краткая   ')
+                txt.insert(1.0, 'РљСЂР°С‚РєР°СЏ   ')
                 txt.configure(state=tk.DISABLED) 
                 txt.delete(1.0, tk.END) 
 
@@ -141,41 +141,41 @@ class Example(Frame):
         self.parent.config(menu=menubar)
         
         fileMenu = Menu(menubar)       
-        #Добавление всплывающего подменю "выбрать файл"  
+        #Р”РѕР±Р°РІР»РµРЅРёРµ РІСЃРїР»С‹РІР°СЋС‰РµРіРѕ РїРѕРґРјРµРЅСЋ "РІС‹Р±СЂР°С‚СЊ С„Р°Р№Р»"  
         submenu = Menu(fileMenu)
-        #Добавление всплывающего подменю "Сохранить файл..."  
-        fileMenu.add_command(label='Сохранить',  underline=1, command = SFD)
-        fileMenu.add_cascade(label='Выбрать файл', menu=submenu, underline=0)
-        submenu.add_command(label="Архивные тренды", command = lambda: OFD1(path1))
-        submenu.add_command(label="Архивные сообщения", command = lambda: OFD2(path2))
-        submenu.add_command(label="Что-то еще")
+        #Р”РѕР±Р°РІР»РµРЅРёРµ РІСЃРїР»С‹РІР°СЋС‰РµРіРѕ РїРѕРґРјРµРЅСЋ "РЎРѕС…СЂР°РЅРёС‚СЊ С„Р°Р№Р»..."  
+        fileMenu.add_command(label='РЎРѕС…СЂР°РЅРёС‚СЊ',  underline=1, command = SFD)
+        fileMenu.add_cascade(label='Р’С‹Р±СЂР°С‚СЊ С„Р°Р№Р»', menu=submenu, underline=0)
+        submenu.add_command(label="РђСЂС…РёРІРЅС‹Рµ С‚СЂРµРЅРґС‹", command = lambda: OFD1(path1))
+        submenu.add_command(label="РђСЂС…РёРІРЅС‹Рµ СЃРѕРѕР±С‰РµРЅРёСЏ", command = lambda: OFD2(path2))
+        submenu.add_command(label="Р§С‚Рѕ-С‚Рѕ РµС‰Рµ")
         
         helpMenu = Menu(menubar)       
         referMenu = Menu(helpMenu)
         #fileMenu.add_separator()
-        #Добавление всплывающего меню "Файл" и "старт"  
-        menubar.add_cascade(label="Файл", underline=0, menu=fileMenu)   
-        menubar.add_cascade(label="Старт", underline=1)
-        #Добавление всплывающего меню "Справка"     
-        menubar.add_cascade(label="Справка", underline=2, menu=helpMenu)   
-        helpMenu.add_command(label='Руководство пользователя', underline=0)
-        #Добавление всплывающего подменю О программе
-        helpMenu.add_cascade(label='О программе',menu=referMenu,underline=1)
-        referMenu.add_command(label='Как работает программа',underline=0,command=create_window )
-        referMenu.add_command(label='Информация о разработчиках и их контакты',underline=1,command=InterText )
+        #Р”РѕР±Р°РІР»РµРЅРёРµ РІСЃРїР»С‹РІР°СЋС‰РµРіРѕ РјРµРЅСЋ "Р¤Р°Р№Р»" Рё "СЃС‚Р°СЂС‚"  
+        menubar.add_cascade(label="Р¤Р°Р№Р»", underline=0, menu=fileMenu)   
+        menubar.add_cascade(label="РЎС‚Р°СЂС‚", underline=1)
+        #Р”РѕР±Р°РІР»РµРЅРёРµ РІСЃРїР»С‹РІР°СЋС‰РµРіРѕ РјРµРЅСЋ "РЎРїСЂР°РІРєР°"     
+        menubar.add_cascade(label="РЎРїСЂР°РІРєР°", underline=2, menu=helpMenu)   
+        helpMenu.add_command(label='Р СѓРєРѕРІРѕРґСЃС‚РІРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ', underline=0)
+        #Р”РѕР±Р°РІР»РµРЅРёРµ РІСЃРїР»С‹РІР°СЋС‰РµРіРѕ РїРѕРґРјРµРЅСЋ Рћ РїСЂРѕРіСЂР°РјРјРµ
+        helpMenu.add_cascade(label='Рћ РїСЂРѕРіСЂР°РјРјРµ',menu=referMenu,underline=1)
+        referMenu.add_command(label='РљР°Рє СЂР°Р±РѕС‚Р°РµС‚ РїСЂРѕРіСЂР°РјРјР°',underline=0,command=create_window )
+        referMenu.add_command(label='РРЅС„РѕСЂРјР°С†РёСЏ Рѕ СЂР°Р·СЂР°Р±РѕС‚С‡РёРєР°С… Рё РёС… РєРѕРЅС‚Р°РєС‚С‹',underline=1,command=InterText )
         
         
         settingMenu = Menu(menubar)
         setmenu = Menu(settingMenu)
-        #Добавление всплывающего меню "Настройки"
-        menubar.add_cascade(label="Настройки", menu=settingMenu, underline=3)
-        settingMenu.add_cascade(label='Назначить пути',menu=setmenu, underline=0)
-        settingMenu.add_command(label='Что-то еще', underline=1)
-        setmenu.add_command(label="Выберите путь для архивных трендов",command = CFD1)
-        setmenu.add_command(label="Выберите путь для архивных сообщений",command = CFD2)
+        #Р”РѕР±Р°РІР»РµРЅРёРµ РІСЃРїР»С‹РІР°СЋС‰РµРіРѕ РјРµРЅСЋ "РќР°СЃС‚СЂРѕР№РєРё"
+        menubar.add_cascade(label="РќР°СЃС‚СЂРѕР№РєРё", menu=settingMenu, underline=3)
+        settingMenu.add_cascade(label='РќР°Р·РЅР°С‡РёС‚СЊ РїСѓС‚Рё',menu=setmenu, underline=0)
+        settingMenu.add_command(label='Р§С‚Рѕ-С‚Рѕ РµС‰Рµ', underline=1)
+        setmenu.add_command(label="Р’С‹Р±РµСЂРёС‚Рµ РїСѓС‚СЊ РґР»СЏ Р°СЂС…РёРІРЅС‹С… С‚СЂРµРЅРґРѕРІ",command = CFD1)
+        setmenu.add_command(label="Р’С‹Р±РµСЂРёС‚Рµ РїСѓС‚СЊ РґР»СЏ Р°СЂС…РёРІРЅС‹С… СЃРѕРѕР±С‰РµРЅРёР№",command = CFD2)
         
-         #Добавление  меню "Выйти"   
-        menubar.add_cascade(label="Выйти", underline=4, command=self.onExit)
+         #Р”РѕР±Р°РІР»РµРЅРёРµ  РјРµРЅСЋ "Р’С‹Р№С‚Рё"   
+        menubar.add_cascade(label="Р’С‹Р№С‚Рё", underline=4, command=self.onExit)
         
     def onExit(self):
         self.quit()
