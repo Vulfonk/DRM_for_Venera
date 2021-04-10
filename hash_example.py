@@ -1,5 +1,6 @@
 import os
 import hashlib
+import sqlite3
 from glob import glob
 from functools import partial
 
@@ -21,6 +22,33 @@ def get_hash(file, res):
         res[str(file)]["sha256"] = sha256.hexdigest()
     return res
 
-dict_hashes  = get_hashes(r"C:\Users\1\Desktop\Диплом Венеры", ["pdf", "doc", "xlsx", "rtf", "txt"])
-for pair in dict_hashes:
-    print(pair + "=" + dict_hashes[pair]['sha256'])
+
+def add_etalon(folder_path, name_program, ext):
+    db = sqlite3.connect('DRM-etalon.db')
+    dict_hashes  = get_hashes(folder_path, ext)
+    cur = db.cursor()
+
+    cur.execute(
+        f"""INSERT INTO Etalons (AbsolutePath, NameProgram) 
+        VALUES ('{folder_path}','{name_program}');""")
+
+    select_query = f"""SELECT Id
+            FROM Etalons
+            WHERE AbsolutePath = '{folder_path}'
+            LIMIT  1"""
+            
+    cur.execute(select_query)
+    result = cur.fetchone()[0]
+
+    for pair in dict_hashes:
+        relative_path = '.' + pair.replace(folder_path, '', 1)
+        hash_sha = dict_hashes[pair]['sha256']
+
+        insert_query =f"""INSERT INTO FilesHash (RelativePath, Hash, EtalonId) 
+                VALUES ('{relative_path}', '{hash_sha}','{result}')
+                """ 
+        
+        cur.executescript(insert_query)
+    db.commit()
+
+add_etalon(r"C:\Users\1\Desktop\Python scripts", "test", ["py", "doc", "xlsx", "rtf", "txt"])
