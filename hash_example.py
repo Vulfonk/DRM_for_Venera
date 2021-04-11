@@ -23,14 +23,14 @@ def get_hash(file, res):
     return res
 
 
-def add_etalon(folder_path, name_program, ext):
+def add_etalon(folder_path, ext):
     db = sqlite3.connect('DRM-etalon.db')
     dict_hashes  = get_hashes(folder_path, ext)
     cur = db.cursor()
 
     cur.execute(
-        f"""INSERT INTO Etalons (AbsolutePath, NameProgram) 
-        VALUES ('{folder_path}','{name_program}');""")
+        f"""INSERT INTO Etalons (AbsolutePath) 
+        VALUES ('{folder_path}');""")
 
     select_query = f"""SELECT Id
             FROM Etalons
@@ -51,4 +51,4 @@ def add_etalon(folder_path, name_program, ext):
         cur.executescript(insert_query)
     db.commit()
 
-add_etalon(r"C:\Users\1\Desktop\Python scripts", "test", ["py", "doc", "xlsx", "rtf", "txt"])
+add_etalon(r"C:\Users\1\Desktop\HUDs", ["py", "doc", "xlsx", "rtf", "txt", "xml"])
