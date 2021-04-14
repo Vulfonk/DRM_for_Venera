@@ -24,7 +24,7 @@ class HashesDataBase(object):
         )""")
         self.db.commit()
 
-    def add_etalon(self, dict_hashes_obj: DictHashesClass, ext):
+    def add_etalon(self, dict_hashes_obj: DictHashesClass):
         dict_hashes = dict_hashes_obj.dict_hashes
         folder_path = dict_hashes_obj.dirr_path
         self.db = sqlite3.connect(self.db_name)
