@@ -57,8 +57,6 @@ class HashesDataBase(object):
         cur = self.db.cursor()
         select_query = f"""SELECT * 
                 FROM FilesHash"""
-                #INNER JOIN Etalons
-                #ON FilesHash.EtalonId = Etalons.id"""
         cur.execute(select_query)
         result = cur.fetchall()
         return result
