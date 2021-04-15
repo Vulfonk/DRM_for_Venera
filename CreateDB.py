@@ -53,5 +53,15 @@ class HashesDataBase(object):
             cur.executescript(insert_query)
         self.db.commit()
 
+    def view_hash_table(self):
+        cur = self.db.cursor()
+        select_query = f"""SELECT * 
+                FROM FilesHash"""
+                #INNER JOIN Etalons
+                #ON FilesHash.EtalonId = Etalons.id"""
+        cur.execute(select_query)
+        result = cur.fetchall()
+        return result
+
     def __del__(self):
         self.db.close()

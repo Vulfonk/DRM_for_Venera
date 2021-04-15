@@ -10,11 +10,11 @@ class DictHashesClass(object):
             for current_file in current_folder[2]:
                 path_to_file = current_folder[0] + "\\" + current_file
                 if os.path.splitext(path_to_file)[1][1:] in ext:
-                    self.get_hash(path_to_file, res)
+                    self.__get_hash(path_to_file, res)
         self.dict_hashes = res
         self.dirr_path = dirr
         
-    def get_hash(self, file, res):
+    def __get_hash(self, file, res):
         res[str(file)] = {}
         with open(str(file), "rb") as f:      
             sha256 = hashlib.sha256()
