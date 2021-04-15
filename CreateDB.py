@@ -52,3 +52,6 @@ class HashesDataBase(object):
 
             cur.executescript(insert_query)
         self.db.commit()
+
+    def __del__(self):
+        self.db.close()

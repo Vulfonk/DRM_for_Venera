@@ -1,7 +1,5 @@
 import os
 import hashlib
-import sqlite3
-from glob import glob
 from functools import partial
 
 class DictHashesClass(object):
