@@ -13,7 +13,7 @@ class HashesDataBase(object):
             AbsolutePath TEXT,
             CONSTRAINT AK_AbsolutePath UNIQUE(AbsolutePath)
         )""")
-        self.db.commit()
+        #создание таблицы эталонов
 
         cur.execute("""CREATE TABLE IF NOT EXISTS FilesHash (
             Id INTEGER PRIMARY KEY,
@@ -22,7 +22,43 @@ class HashesDataBase(object):
             EtalonId,
             FOREIGN KEY (EtalonID) REFERENCES Etalons(Id)
         )""")
+        #создание таблицы для хэшей файлов
+
         self.db.commit()
+
+    def del_etalon(self, folder_path):
+
+        cur = self.db.cursor()
+
+        select_query = f"""
+            SELECT Id
+            FROM Etalons
+            WHERE AbsolutePath = '{folder_path}'
+            LIMIT  1
+        """
+
+        cur.execute(select_query)
+        result = cur.fetchone()[0]
+
+        delete_query = f"""
+            DELETE 
+            FROM Etalons
+            WHERE Id = '{result}'
+        """
+
+        cur.execute(delete_query)
+
+        delete_query = f"""
+            DELETE 
+            FROM FilesHash
+            WHERE EtalonId = '{result}'
+        """
+        cur.execute(delete_query)
+        self.db.commit()
+
+    def update_etalon(self, dict_hashes_obj: DictHashesClass):
+        self.del_etalon(dict_hashes_obj.dirr_path)
+        self.add_etalon(dict_hashes_obj)
 
     def add_etalon(self, dict_hashes_obj: DictHashesClass):
         dict_hashes = dict_hashes_obj.dict_hashes
@@ -30,14 +66,18 @@ class HashesDataBase(object):
         self.db = sqlite3.connect(self.db_name)
         cur = self.db.cursor()
 
-        cur.execute(
-            f"""INSERT INTO Etalons (AbsolutePath) 
-            VALUES ('{folder_path}');""")
+        cur.execute(f"""
+            INSERT INTO Etalons (AbsolutePath) 
+            VALUES ('{folder_path}');
+        """)
 
-        select_query = f"""SELECT Id
-                FROM Etalons
-                WHERE AbsolutePath = '{folder_path}'
-                LIMIT  1"""
+
+        select_query = f"""
+            SELECT Id
+            FROM Etalons
+            WHERE AbsolutePath = '{folder_path}'
+            LIMIT  1
+        """
 
         cur.execute(select_query)
         result = cur.fetchone()[0]
@@ -46,19 +86,30 @@ class HashesDataBase(object):
             relative_path = '.' + pair.replace(folder_path, '', 1)
             hash_sha = dict_hashes[pair]['sha256']
 
-            insert_query = f"""INSERT INTO FilesHash (RelativePath, Hash, EtalonId) 
-                    VALUES ('{relative_path}', '{hash_sha}','{result}')
-                    """
+            insert_query = f"""
+                INSERT INTO FilesHash (RelativePath, Hash, EtalonId) 
+                VALUES ('{relative_path}', '{hash_sha}','{result}')
+                """
 
             cur.executescript(insert_query)
+
         self.db.commit()
 
-    def view_hash_table(self):
+    def view_hash_table(self, IsAbsolutePath):
         cur = self.db.cursor()
-        select_query = f"""SELECT * 
-                FROM FilesHash"""
+        select_query = f"""
+            SELECT * 
+            FROM FilesHash
+        """
         cur.execute(select_query)
         result = cur.fetchall()
+
+        if IsAbsolutePath == True:
+            select_query = f"""
+                SELECT AbsolutePath, Id
+                FROM Etalons
+            """
+
         return result
 
     def __del__(self):
