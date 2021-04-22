@@ -1,4 +1,4 @@
-from tkinter import Tk, Frame, Text, Menu, BOTH, X,Button
+from tkinter import Tk, Toplevel,Frame, Text, Menu, BOTH, X,Button,Listbox, Label
 from tkinter import filedialog as fd
 import tkinter as tk
 import time
@@ -99,6 +99,22 @@ class Example(Frame):
                 txt1.configure(state=tk.NORMAL)
                 txt1.insert(1.0, 'Файл сохранён.\n')
                 txt1.configure(state=tk.DISABLED)
+
+        def add_paths():
+            children=Toplevel(self.parent)
+            paths=Listbox()
+            paths.pack(side=tk.LEFT)
+            children.title("Выбор путей")
+            label1 = Label(children,text="Hello Python", fg="#eee", bg="#333")
+            label1.pack()
+            #f=Frame()
+            #f.pack(side=tk.LEFT, padx=10)
+            Button(children, text="Add", command=SFD).pack(fill=X)
+            #Button(f, text="Delete", command=del_list)\
+           #     .pack(fill=X)
+           # Button(f, text="Save", command=save_list)\
+            #    .pack(fill=X)
+            #root.mainloop()
                 
          #вывод информации о разработчиках 
         def InterText():
@@ -144,8 +160,8 @@ class Example(Frame):
         #Добавление всплывающего подменю "выбрать файл"  
         submenu = Menu(fileMenu)
         #Добавление всплывающего подменю "Сохранить файл..."  
-        fileMenu.add_command(label='Установить расширения',  underline=1, command = SFD)
-        fileMenu.add_command(label='Установить пути',  underline=1, command = SFD)
+        #fileMenu.add_command(label='Установить расширения',  underline=1, command = SFD)
+        fileMenu.add_command(label='Установить пути',  underline=1, command = add_paths)
         fileMenu.add_command(label='Создать таблицу',  underline=1, command = SFD)
 
         
