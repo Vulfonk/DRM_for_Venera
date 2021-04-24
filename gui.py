@@ -1,9 +1,11 @@
-from tkinter import Tk, Toplevel,Frame, Text, Menu, BOTH, X,Button,Listbox, Label
+from tkinter import Tk, Toplevel,Frame, Text, Menu, BOTH, X,Button,Listbox, Label,END
 from tkinter import filedialog as fd
 import tkinter as tk
 import time
-
-
+from functools import partial
+global ext_text
+# сканим всё если есть *
+exts="csv txt"
 class Example(Frame):
     
     def __init__(self, parent):
@@ -99,22 +101,28 @@ class Example(Frame):
                 txt1.configure(state=tk.NORMAL)
                 txt1.insert(1.0, 'Файл сохранён.\n')
                 txt1.configure(state=tk.DISABLED)
+        def save_exts(text):
+                exts=text.get("1.0",END)
+                print(exts)
+
+        def add_exts():
+
+            children=Toplevel(self.parent)
+            #paths=Listbox()
+            #paths.pack(side=tk.LEFT)
+            children.title("Выбор путей")
+            label1 = Label(children,text="Введите через пробел расширения файлов\nПример:csv txt exe").pack()
+            ext_text=Text(children)
+            ext_text.insert(END,exts)
+            ext_text.pack()
+            func_with_args=partial(save_exts,ext_text)
+            Button(children, text="Add", command=func_with_args).pack(fill=X)
 
         def add_paths():
             children=Toplevel(self.parent)
-            paths=Listbox()
-            paths.pack(side=tk.LEFT)
-            children.title("Выбор путей")
-            label1 = Label(children,text="Hello Python", fg="#eee", bg="#333")
-            label1.pack()
-            #f=Frame()
-            #f.pack(side=tk.LEFT, padx=10)
-            Button(children, text="Add", command=SFD).pack(fill=X)
-            #Button(f, text="Delete", command=del_list)\
-           #     .pack(fill=X)
-           # Button(f, text="Save", command=save_list)\
-            #    .pack(fill=X)
-            #root.mainloop()
+            paths=Listbox(children).pack(side=tk.LEFT)
+            Button(children,text="+",command=add_path)
+
                 
          #вывод информации о разработчиках 
         def InterText():
@@ -161,7 +169,8 @@ class Example(Frame):
         submenu = Menu(fileMenu)
         #Добавление всплывающего подменю "Сохранить файл..."  
         #fileMenu.add_command(label='Установить расширения',  underline=1, command = SFD)
-        fileMenu.add_command(label='Установить пути',  underline=1, command = add_paths)
+        fileMenu.add_command(label='Установить расширения',  underline=1, command = add_exts)
+        fileMenu.add_command(label='Установить пути',  underline=1, command = CFD1)
         fileMenu.add_command(label='Создать таблицу',  underline=1, command = SFD)
 
         
