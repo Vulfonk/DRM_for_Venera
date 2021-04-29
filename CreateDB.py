@@ -13,7 +13,7 @@ class HashesDataBase(object):
             AbsolutePath TEXT,
             CONSTRAINT AK_AbsolutePath UNIQUE(AbsolutePath)
         )""")
-        #создание таблицы эталонов
+        # создание таблицы эталонов
 
         cur.execute("""CREATE TABLE IF NOT EXISTS FilesHash (
             Id INTEGER PRIMARY KEY,
@@ -22,7 +22,7 @@ class HashesDataBase(object):
             EtalonId,
             FOREIGN KEY (EtalonID) REFERENCES Etalons(Id)
         )""")
-        #создание таблицы для хэшей файлов
+        # создание таблицы для хэшей файлов
 
         self.db.commit()
 
@@ -71,7 +71,6 @@ class HashesDataBase(object):
             VALUES ('{folder_path}');
         """)
 
-
         select_query = f"""
             SELECT Id
             FROM Etalons
@@ -95,22 +94,27 @@ class HashesDataBase(object):
 
         self.db.commit()
 
-    def view_hash_table(self, IsAbsolutePath):
+    def view_hash_table(self, is_absolute_path):
         cur = self.db.cursor()
         select_query = f"""
             SELECT * 
             FROM FilesHash
         """
         cur.execute(select_query)
-        result = cur.fetchall()
+        files_query_result = cur.fetchall()
 
-        if IsAbsolutePath == True:
-            select_query = f"""
-                SELECT AbsolutePath, Id
-                FROM Etalons
-            """
+        if not is_absolute_path:
+            return files_query_result
 
-        return result
+        select_query = f"""
+            SELECT AbsolutePath, Id
+            FROM Etalons
+        """
+
+        cur.execute(select_query)
+        etalons_query_result = cur.fetchall()
+
+        return files_query_result
 
     def __del__(self):
         self.db.close()
