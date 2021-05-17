@@ -116,5 +116,36 @@ class HashesDataBase(object):
 
         return files_query_result
 
+    def view_etalons_list(self, is_absolute_path):
+        cur = self.db.cursor()
+        select_query = f"""
+                   SELECT * 
+                   FROM Etalons
+               """
+        cur.execute(select_query)
+        etalons_query_result = cur.fetchall()
+        return etalons_query_result
+
+    def view_etalon_hashes(self, etalon_path):
+        cur = self.db.cursor()
+
+        select_query = f"""
+                          SELECT Id 
+                          FROM Etalons
+                          WHERE AbsolutePath = '{etalon_path}'
+                      """
+        cur.execute(select_query)
+        etalons_query_result = cur.fetchall()
+        select_query = f"""
+                          SELECT * 
+                          FROM FilesHash
+                          WHERE EtalonId = '{etalons_query_result[0][0]}'
+                      """
+        cur.execute(select_query)
+
+        files_query_result = cur.fetchall()
+
+        return files_query_result
+
     def __del__(self):
         self.db.close()

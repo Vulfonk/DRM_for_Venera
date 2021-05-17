@@ -1,7 +1,7 @@
 import os
 import hashlib
 from functools import partial
-
+from datetime import datetime
 
 class DictHashesClass(object):
 
@@ -24,3 +24,25 @@ class DictHashesClass(object):
                 sha256.update(buf)
             res[str(file)]["sha256"] = sha256.hexdigest()
         return res
+
+def Equal(turple_etalons, dict):
+    lis = []
+    dir_path = dict.dirr_path
+
+    for turp in turple_etalons:
+        path = turp[1].replace('.', dir_path, 1)
+        hash = dict.dict_hashes[path]["sha256"]
+
+        lis.append((turp[1],
+                    turp[2],
+                    datetime.now(),
+                    turp[2] == hash))
+    return  lis
+
+
+def search_item(searched_elem, list_turp: dict,  dir_path):
+    hash = list_turp[searched_elem]["sha256"]
+    for elem in list_turp.values():
+        rel_path = elem.replace(dir_path, '.')
+        if rel_path == searched_elem:
+            return elem

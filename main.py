@@ -2,6 +2,7 @@ import hash_example
 import CreateDB
 
 database = CreateDB.HashesDataBase("TestingDataBase2")
+
 try:
     hash_obj = hash_example.DictHashesClass("C:\\Windows\\System32", {'exe', 'dll'})
     database.add_etalon(hash_obj)
