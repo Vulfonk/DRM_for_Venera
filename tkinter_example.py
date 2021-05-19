@@ -180,7 +180,7 @@ class Result(tk.Tk):
 
         columns = ("#1", "#2", "#3", "#4")
         self.frame_result_table.tree = ttk.Treeview(self.frame_result_table,
-                                                    show="headings", columns=columns, height=37)
+                                                    show="headings", columns=columns, height=27)
         tree_table = self.frame_result_table.tree
 
         tree_table.heading("#1", text="Путь каталога")
@@ -228,7 +228,7 @@ class App(tk.Tk):
             res.mainloop()
 
         self.button_directory_dialog = Button(self, text="Сравнить")
-        self.button_directory_dialog.place(x=590, y=750)
+        self.button_directory_dialog.place(x=590, y=550)
         self.button_directory_dialog.bind("<Button-1>", b_select_click)
 
         # кнопка
@@ -246,7 +246,7 @@ class App(tk.Tk):
 
 
         self.button_add_dialog = Button(self, text="Добавить эталон")
-        self.button_add_dialog.place(x=480, y=750)
+        self.button_add_dialog.place(x=480, y=550)
         self.button_add_dialog.bind("<Button-1>", b_etalon_select_click)
 
         # кнопка
@@ -268,7 +268,7 @@ class App(tk.Tk):
                 tree_table.delete(i)
 
         self.button_select_dialog = Button(self, text="Удалить эталон")
-        self.button_select_dialog.place(x=380, y=750)
+        self.button_select_dialog.place(x=380, y=550)
         self.button_select_dialog.bind("<Button-1>", b_dir_dialog_click)
 
         # список
@@ -279,7 +279,7 @@ class App(tk.Tk):
 
         columns = ("#1")
         self.frame_list_etalons.tree = ttk.Treeview(self.frame_list_etalons,
-                                                    show="headings", columns=columns, height=37)
+                                                    show="headings", columns=columns, height=27)
         etalon_list = self.frame_list_etalons.tree
         etalon_list.heading("#1", text="Etalons")
         etalon_list.column("#1", minwidth=330, width=330, stretch=0)
@@ -306,7 +306,7 @@ class App(tk.Tk):
 
         columns = ("#1", "#2")
         self.frame_result_table.tree = ttk.Treeview(self.frame_result_table,
-                                                    show="headings", columns=columns, height=34)
+                                                    show="headings", columns=columns, height=24)
         tree_table = self.frame_result_table.tree
 
         tree_table.heading("#1", text="Путь каталога")
@@ -328,7 +328,7 @@ class App(tk.Tk):
         # поле ввода
         # для расширений
         self.tbox_extensions = Entry(self, width=75)
-        self.tbox_extensions.place(x=680, y=751)
+        self.tbox_extensions.place(x=680, y=551)
 
     def print_selection(self, event):
         tree_table = self.frame_result_table.tree
@@ -341,7 +341,7 @@ class App(tk.Tk):
 
 if __name__ == "__main__":
     app = App()
-    app.geometry('1200x800+200+100')
+    app.geometry('1200x600+200+100')
     app.resizable(width=False, height=False)
     app.mainloop()
 
