@@ -31,12 +31,19 @@ def Equal(turple_etalons, dict):
 
     for turp in turple_etalons:
         path = turp[1].replace('.', dir_path, 1)
-        hash = dict.dict_hashes[path]["sha256"]
+        try:
+            hash = dict.dict_hashes[path]["sha256"]
+            lis.append((turp[1],
+                        turp[2],
+                        datetime.now(),
+                        "Хэш совпадает" if turp[2] == hash else "Хэш не совпадает"))
+        except Exception:
+            lis.append((turp[1],
+                       turp[2],
+                       datetime.now(),
+                       "Файл отсутствует"))
 
-        lis.append((turp[1],
-                    turp[2],
-                    datetime.now(),
-                    turp[2] == hash))
+
     return  lis
 
 

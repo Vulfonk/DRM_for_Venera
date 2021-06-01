@@ -8,167 +8,7 @@ import tkinter.ttk as ttk
 import CreateDB
 import hash_example
 
-class Example(Frame):
-
-    def __init__(self, parent):
-        Frame.__init__(self, parent)
-        self.parent = parent
-        self.initUI()
-
-    def initUI(self):
-        self.parent.title("Обработка табличных данных")
-
-        self.pack(fill=BOTH, expand=True)
-
-        frame1 = Frame(self)
-        frame1.pack(fill=X)
-
-        txt = Text(frame1, width=15, height=15, bg="white")
-        txt.pack(fill=BOTH, pady=5, padx=10, expand=True)
-
-        frame2 = Frame(self)
-        frame2.pack(fill=BOTH, expand=True)
-
-        txt1 = Text(frame2, width=7, height=7, bg="white")
-        txt1.configure(state=tk.DISABLED)
-        txt1.pack(fill=BOTH, pady=5, padx=20, expand=False)
-
-        global path1
-        path1 = str()
-        global path2
-        path2 = str()
-
-        # выбрать пути
-        # выбрать пути
-
-        def CFD1():
-            global path1
-            path1 = fd.askdirectory(title="Выбрать")
-            if type(path1) != tuple and path1 != '':
-                txt1.configure(state=tk.NORMAL)
-                txt1.insert(1.0, 'Назначено расположение архивных трендов: ' + path1 + '\n')
-                txt1.configure(state=tk.DISABLED)
-            print(path1)
-            return path1
-
-        def CFD2():
-            global path2
-            path2 = fd.askdirectory(title="Выбрать")
-            if type(path2) != tuple and path2 != '':
-                txt1.configure(state=tk.NORMAL)
-                txt1.insert(1.0, 'Назначено расположение архивных сообщений: ' + path2 + '\n')
-                txt1.configure(state=tk.DISABLED)
-            return path2
-
-        def OFD1(path1):
-
-                txt.insert(1.0, s)
-                doc.close()
-
-        def OFD2(path2):
-            doc_name = fd.askopenfilename(title="Открыть", initialdir=path2)
-            if type(doc_name) != tuple and doc_name != '':
-                txt1.configure(state=tk.NORMAL)
-                txt1.insert(1.0, 'Открыт файл архивного сообщения' + doc_name + '\n')
-                txt1.configure(state=tk.DISABLED)
-                doc = open(doc_name, encoding="utf-8")
-                s = doc.read()
-                txt.delete(1.0, tk.END)
-                txt.insert(1.0, s)
-                doc.close()
-
-        # сохранить файл
-        def SFD():
-            # назначаем шаблон для названия документа
-            DT = time.strftime("_%Y-%m-%d_%H-%M-%S", time.localtime())
-            doc_name = fd.asksaveasfilename(title="Сохранить", initialfile=DT, defaultextension="*.txt",
-                                            filetypes=(("Текстовый", "*.txt"), ("CSV ", "*.csv"), ("XML ", "*.xml")))
-            doc = open(doc_name, 'w', encoding="utf-8")
-            s = txt.get(1.0, tk.END)
-            doc.write(s)
-            doc.close()
-            if type(doc_name) != tuple:
-                txt1.configure(state=tk.NORMAL)
-                txt1.insert(1.0, 'Файл сохранён.\n')
-                txt1.configure(state=tk.DISABLED)
-
-        # вывод информации о разработчиках
-        def InterText():
-            Window1().mainloop()
-
-        class Window1(Tk):
-            def __init__(self, *arg, **kwarg):
-                super().__init__(*arg, **kwarg)
-                frame4 = Frame(self)
-                frame4.pack(fill=X)
-
-                txt = Text(frame4, width=60, height=20, bg="white")
-                txt.pack(fill=BOTH, pady=10, padx=10, expand=True)
-
-                txt.configure(state=tk.NORMAL)
-                txt.insert(1.0, ' ')
-                txt.configure(state=tk.DISABLED)
-                txt.delete(1.0, tk.END)
-
-        def create_window():
-            Window().mainloop()
-
-        class Window(Tk):
-            def __init__(self, *arg, **kwarg):
-                super().__init__(*arg, **kwarg)
-                frame3 = Frame(self)
-                frame3.pack(fill=X)
-
-                txt = Text(frame3, width=100, height=20, bg="white")
-                txt.pack(fill=BOTH, pady=10, padx=10, expand=True)
-
-                txt.configure(state=tk.NORMAL)
-                txt.insert(1.0, 'Краткая   ')
-                txt.configure(state=tk.DISABLED)
-                txt.delete(1.0, tk.END)
-
-        menubar = Menu(self.parent)
-        self.parent.config(menu=menubar)
-
-        fileMenu = Menu(menubar)
-        # Добавление всплывающего подменю "выбрать файл"
-        submenu = Menu(fileMenu)
-        # Добавление всплывающего подменю "Сохранить файл..."
-        fileMenu.add_command(label='Сохранить', underline=1, command=SFD)
-        fileMenu.add_cascade(label='Выбрать файл', menu=submenu, underline=0)
-        submenu.add_command(label="Архивные тренды", command=lambda: OFD1(path1))
-        submenu.add_command(label="Архивные сообщения", command=lambda: OFD2(path2))
-        submenu.add_command(label="Что-то еще")
-
-        helpMenu = Menu(menubar)
-        referMenu = Menu(helpMenu)
-        # fileMenu.add_separator()
-        # Добавление всплывающего меню "Файл" и "старт"
-        menubar.add_cascade(label="Файл", underline=0, menu=fileMenu)
-        menubar.add_cascade(label="Старт", underline=1)
-        # Добавление всплывающего меню "Справка"
-        menubar.add_cascade(label="Справка", underline=2, menu=helpMenu)
-        helpMenu.add_command(label='Руководство пользователя', underline=0)
-        # Добавление всплывающего подменю О программе
-        helpMenu.add_cascade(label='О программе', menu=referMenu, underline=1)
-        referMenu.add_command(label='Как работает программа', underline=0, command=create_window)
-        referMenu.add_command(label='Информация о разработчиках и их контакты', underline=1, command=InterText)
-
-        settingMenu = Menu(menubar)
-        setmenu = Menu(settingMenu)
-        # Добавление всплывающего меню "Настройки"
-        menubar.add_cascade(label="Настройки", menu=settingMenu, underline=3)
-        settingMenu.add_cascade(label='Назначить пути', menu=setmenu, underline=0)
-        settingMenu.add_command(label='Что-то еще', underline=1)
-        setmenu.add_command(label="Выберите путь для архивных трендов", command=CFD1)
-        setmenu.add_command(label="Выберите путь для архивных сообщений", command=CFD2)
-
-        # Добавление  меню "Выйти"
-        menubar.add_cascade(label="Выйти", underline=4, command=self.onExit)
-
-    def onExit(self):
-        self.quit()
-
+import xlwt
 
 class Result(tk.Tk):
     def __init__(self, selected_item, data_base, extends):
@@ -210,6 +50,25 @@ class Result(tk.Tk):
         for files in lis:
             tree_table.insert("", tk.END, values=files)
 
+        def b_import_click(event):
+            wb = xlwt.Workbook()
+            xl_file = fd.asksaveasfilename(defaultextension=".xls", filetypes=(("xls file", "*.xls"),))
+            ws = wb.add_sheet('Отчет')
+            i, j = 0, 0
+            for turp in lis:
+                for item in turp:
+
+                    ws.write(r=i, c=j, label=str(item))
+                    j += 1
+                i += 1
+                j = 0
+
+            wb.save(xl_file)
+
+        self.button_exel_import = Button(self, text="Сохранить отчет")
+        self.button_exel_import.place(x=590, y=590)
+        self.button_exel_import.bind("<Button-1>", b_import_click)
+
 class App(tk.Tk):
     def __init__(self):
         self.database = CreateDB.HashesDataBase("TestingDataBase2")
@@ -222,9 +81,14 @@ class App(tk.Tk):
         def b_select_click(event):
             selected_item = self.frame_list_etalons.tree.item(self.frame_list_etalons.tree.focus())["values"][0]
             extens = self.tbox_extensions.get().split()
+
             res = Result(selected_item, self.database, extens)
-            res.geometry('1400x800+200+100')
+            res.geometry('1400x700+200+100')
+
+
+
             res.resizable(width=False, height=False)
+
             res.mainloop()
 
         self.button_directory_dialog = Button(self, text="Сравнить")
@@ -239,11 +103,12 @@ class App(tk.Tk):
             extens = self.tbox_extensions.get().split()
             hash_obj = hash_example.DictHashesClass(dir, extens)
             self.database.add_etalon(hash_obj)
+
             for i in self.frame_list_etalons.tree.get_children():
                 self.frame_list_etalons.tree.delete(i)
+
             for etalons in self.database.view_etalons_list(is_absolute_path=False):
                 self.frame_list_etalons.tree.insert("", tk.END, values=etalons[1:2])
-
 
         self.button_add_dialog = Button(self, text="Добавить эталон")
         self.button_add_dialog.place(x=480, y=550)
