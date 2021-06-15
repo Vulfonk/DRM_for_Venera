@@ -8,12 +8,16 @@ import tkinter.ttk as ttk
 import CreateDB
 import hash_example
 
+import datetime
 import xlwt
 
 class Result(tk.Tk):
     def __init__(self, selected_item, data_base, extends):
         super().__init__()
         self.title("Result")
+
+        self.tbox_time = Entry(self, width=25)
+        self.tbox_time.place(x=780, y=590)
 
         self.frame_result_table = Frame(self, width=200, height=100)
         self.frame_result_table.place(x=10, y=10)
@@ -44,8 +48,11 @@ class Result(tk.Tk):
             tree_table.delete(i)
         dir_path = fd.askdirectory(parent=self, title="")
 
+        start_time = time.time()
         lis = hash_example.Equal(data_base.view_etalon_hashes(selected_item),
                                  hash_example.DictHashesClass(dir_path, extends))
+        process_time = time.time()-start_time
+        self.tbox_time.insert(0, str(process_time))
 
         for files in lis:
             tree_table.insert("", tk.END, values=files)
